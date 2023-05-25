@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.353">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Preethi Aranala">
-
 <title>MyLabJournal - Data Wrangling</title>
 <style>
 code{white-space: pre-wrap;}
@@ -21,8 +18,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
-
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
@@ -42,8 +72,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -61,17 +90,13 @@ ul.task-list li input[type="checkbox"] {
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script>
-
-
+}</script><link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 </head>
-
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">MyLabJournal</span>
@@ -83,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link" href="../../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
@@ -91,8 +116,8 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-journal" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
  <span class="menu-text">Journal</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-journal">    
-        <li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-journal">
+<li>
     <a class="dropdown-item" href="../../content/01_journal/01_tidyverse.html" rel="" target="">
  <span class="dropdown-text">01 Tidyverse</span></a>
   </li>  
@@ -109,7 +134,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">04 Data Visualization</span></a>
   </li>  
     </ul>
-  </li>
+</li>
   <li class="nav-item">
     <a class="nav-link" href="../../content/02_notes/05_class_notes.html" rel="" target="">
  <span class="menu-text">Class notes</span></a>
@@ -119,36 +144,32 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Links</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
+<div class="quarto-navbar-tools ms-auto">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
-    </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Contents</h2>
    
   <ul class="collapse">
-  <li><a href="#libraries--" id="toc-libraries--" class="nav-link active" data-scroll-target="#libraries--"><span class="header-section-number">1</span> 1.0 LIBRARIES —-</a></li>
-  <li><a href="#importing-files-into-tables" id="toc-importing-files-into-tables" class="nav-link" data-scroll-target="#importing-files-into-tables"><span class="header-section-number">2</span> 3.0 IMPORTING FILES INTO TABLES</a></li>
-  <li><a href="#visualizing-the-data" id="toc-visualizing-the-data" class="nav-link" data-scroll-target="#visualizing-the-data"><span class="header-section-number">3</span> 3.1.2 Visualizing the data</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">4</span> 3.2.1</a></li>
-  <li><a href="#visualizing-the-data-1" id="toc-visualizing-the-data-1" class="nav-link" data-scroll-target="#visualizing-the-data-1"><span class="header-section-number">5</span> 3.2.2 Visualizing the data</a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">6</span> 3.3.1</a></li>
-  </ul>
-</nav>
+<li><a href="#libraries--" id="toc-libraries--" class="nav-link active" data-scroll-target="#libraries--"><span class="header-section-number">1</span> 1.0 LIBRARIES —-</a></li>
+  <li><a href="#assigning-column-types" id="toc-assigning-column-types" class="nav-link" data-scroll-target="#assigning-column-types"><span class="header-section-number">2</span> 2.0 ASSIGNING COLUMN TYPES</a></li>
+  <li><a href="#importing-files-into-tables" id="toc-importing-files-into-tables" class="nav-link" data-scroll-target="#importing-files-into-tables"><span class="header-section-number">3</span> 3.0 IMPORTING FILES INTO TABLES</a></li>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1"><span class="header-section-number">4</span> 3.1 Question 1</a></li>
+  <li><a href="#manipulating-the-data" id="toc-manipulating-the-data" class="nav-link" data-scroll-target="#manipulating-the-data"><span class="header-section-number">5</span> 3.1.1 Manipulating the data</a></li>
+  <li><a href="#visualizing-the-data" id="toc-visualizing-the-data" class="nav-link" data-scroll-target="#visualizing-the-data"><span class="header-section-number">6</span> 3.1.2 Visualizing the data</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">7</span> 3.2.1</a></li>
+  <li><a href="#visualizing-the-data-1" id="toc-visualizing-the-data-1" class="nav-link" data-scroll-target="#visualizing-the-data-1"><span class="header-section-number">8</span> 3.2.2 Visualizing the data</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">9</span> 3.3.1</a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"><span class="header-section-number">10</span> 3.3.2</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Data Wrangling</h1>
 </div>
 
@@ -168,44 +189,159 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
-</header>
+</header><section id="libraries--" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> 1.0 LIBRARIES —-</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-1_6894029c6e1efb1e008b459943ca0b0e">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(vroom)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="assigning-column-types" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> 2.0 ASSIGNING COLUMN TYPES</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-2_1c1e080e9193766002e7a6b4494a9d7c">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>col_types <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="at">id =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="at">patent_id =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-5"><a href="#cb2-5"></a>  <span class="at">assignee_id =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="at">mainclass_id =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-7"><a href="#cb2-7"></a>  <span class="at">type =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-8"><a href="#cb2-8"></a>  <span class="at">number =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-9"><a href="#cb2-9"></a>  <span class="at">country =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-10"><a href="#cb2-10"></a>  <span class="at">organization =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-11"><a href="#cb2-11"></a>  <span class="at">date =</span> <span class="fu">col_date</span>(<span class="st">"%Y-%m-%d"</span>),</span>
+<span id="cb2-12"><a href="#cb2-12"></a>  <span class="at">abstract =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-13"><a href="#cb2-13"></a>  <span class="at">title =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-14"><a href="#cb2-14"></a>  <span class="at">kind =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-15"><a href="#cb2-15"></a>  <span class="at">num_claims =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb2-16"><a href="#cb2-16"></a>  <span class="at">filename =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-17"><a href="#cb2-17"></a>  <span class="at">withdrawn =</span> <span class="fu">col_double</span>(),</span>
+<span id="cb2-18"><a href="#cb2-18"></a>  <span class="at">sequence =</span> <span class="fu">col_integer</span>()</span>
+<span id="cb2-19"><a href="#cb2-19"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="importing-files-into-tables" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> 3.0 IMPORTING FILES INTO TABLES</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-3_5abeb8812bdd5612cd76a7473bb21939">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>patent_tbl <span class="ot">&lt;-</span> <span class="fu">vroom</span>(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="at">file       =</span> <span class="st">"C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/patent.tsv"</span>, </span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="at">delim      =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, </span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="at">col_types  =</span> col_types[<span class="fu">c</span>(<span class="st">"id"</span>,  <span class="st">"date"</span>,  <span class="st">"num_claims"</span>)],</span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="at">na         =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NA"</span>, <span class="st">"NULL"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a>patent_assignee_tbl <span class="ot">&lt;-</span> <span class="fu">vroom</span>(</span>
+<span id="cb3-9"><a href="#cb3-9"></a>  <span class="at">file       =</span>  <span class="st">"00_raw_data/Patent_data_reduced/patent_assignee.tsv"</span>, </span>
+<span id="cb3-10"><a href="#cb3-10"></a>  <span class="at">file       =</span>  <span class="st">"C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/patent_assignee.tsv"</span>, </span>
+<span id="cb3-11"><a href="#cb3-11"></a>  <span class="at">delim      =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, </span>
+<span id="cb3-12"><a href="#cb3-12"></a>  <span class="at">col_types  =</span> col_types[<span class="fu">c</span>(<span class="st">"patent_id"</span>,   <span class="st">"assignee_id"</span>)],</span>
+<span id="cb3-13"><a href="#cb3-13"></a>  <span class="at">na         =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NA"</span>, <span class="st">"NULL"</span>)</span>
+<span id="cb3-14"><a href="#cb3-14"></a>)</span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a>assignee_tbl        <span class="ot">&lt;-</span> <span class="fu">vroom</span>(</span>
+<span id="cb3-17"><a href="#cb3-17"></a>  <span class="at">file       =</span> <span class="st">"00_raw_data/Patent_data_reduced/assignee.tsv"</span>, </span>
+<span id="cb3-18"><a href="#cb3-18"></a>  <span class="at">file       =</span> <span class="st">"C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/assignee.tsv"</span>, </span>
+<span id="cb3-19"><a href="#cb3-19"></a>  <span class="at">delim      =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, </span>
+<span id="cb3-20"><a href="#cb3-20"></a>  <span class="at">col_types  =</span> col_types[<span class="fu">c</span>(<span class="st">"id"</span>,  <span class="st">"type"</span>,  <span class="st">"organization"</span>)],</span>
+<span id="cb3-21"><a href="#cb3-21"></a>  <span class="at">na         =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NA"</span>, <span class="st">"NULL"</span>)</span>
+<span id="cb3-22"><a href="#cb3-22"></a>)</span>
+<span id="cb3-23"><a href="#cb3-23"></a></span>
+<span id="cb3-24"><a href="#cb3-24"></a>uspc_tbl            <span class="ot">&lt;-</span> <span class="fu">vroom</span>(</span>
+<span id="cb3-25"><a href="#cb3-25"></a>  <span class="at">file       =</span>  <span class="st">"00_raw_data/Patent_data_reduced/uspc.tsv"</span>, </span>
+<span id="cb3-26"><a href="#cb3-26"></a>  <span class="at">file       =</span>  <span class="st">"C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/uspc.tsv"</span>, </span>
+<span id="cb3-27"><a href="#cb3-27"></a>  <span class="at">delim      =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, </span>
+<span id="cb3-28"><a href="#cb3-28"></a>  <span class="at">col_types  =</span> col_types[<span class="fu">c</span>(<span class="st">"patent_id"</span>,  <span class="st">"mainclass_id"</span>,                                              <span class="st">"sequence"</span>)],</span>
+<span id="cb3-29"><a href="#cb3-29"></a>  <span class="at">na         =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NA"</span>, <span class="st">"NULL"</span>)</span>
+<span id="cb3-30"><a href="#cb3-30"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="question-1" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> 3.1 Question 1</h1>
+</section><section id="manipulating-the-data" class="level1" data-number="5"><h1 data-number="5">
+<span class="header-section-number">5</span> 3.1.1 Manipulating the data</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-4_d0d3e71af8e94f85d1e1aa06f872915e">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>patent_assignee_dt <span class="ot">&lt;-</span> <span class="fu">merge</span>(patent_assignee_tbl, assignee_tbl, <span class="at">by.x =</span> <span class="st">"assignee_id"</span>, <span class="at">by.y =</span> <span class="st">"id"</span>, <span class="at">all.x =</span> T) <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">group_by</span>(organization) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">summarize</span>(<span class="at">quantity =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(quantity))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="visualizing-the-data" class="level1" data-number="6"><h1 data-number="6">
+<span class="header-section-number">6</span> 3.1.2 Visualizing the data</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-5_5caad2f7dc7f595ce0d3320afe0cce84">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>patent_assignee_dt <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>organization, <span class="at">y=</span>quantity)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> quantity), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#2DC6D6"</span>) <span class="sc">+</span> </span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span> </span>
+<span id="cb5-7"><a href="#cb5-7"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="at">title    =</span> <span class="st">"Patents by Top US Companies"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9"></a>    <span class="at">x =</span> <span class="st">"Top 10 US Companies"</span>, <span class="co"># Override defaults for x and y</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>    <span class="at">y =</span> <span class="st">"Quantity"</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="section" class="level1" data-number="7"><h1 data-number="7">
+<span class="header-section-number">7</span> 3.2.1</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-6_75b6071f8c6405b260e23364f6db1ff2">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>patent_dt2 <span class="ot">&lt;-</span> patent_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">left_join</span>(patent_assignee_tbl, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"patent_id"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">left_join</span>(assignee_tbl, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"assignee_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> date<span class="sc">&gt;=</span> <span class="st">"2014-08-01"</span> <span class="sc">&amp;</span> date<span class="sc">&lt;=</span> <span class="st">"2014-08-31"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">group_by</span>(organization) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">summarise</span>(<span class="at">quantity =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(quantity))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="visualizing-the-data-1" class="level1" data-number="8"><h1 data-number="8">
+<span class="header-section-number">8</span> 3.2.2 Visualizing the data</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-7_2dcc4ad04e08477063e360f8d2e6b564">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>patent_dt2 <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>organization, <span class="at">y=</span>quantity)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> quantity), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#2DC6D6"</span>) <span class="sc">+</span> </span>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span> </span>
+<span id="cb7-7"><a href="#cb7-7"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-8"><a href="#cb7-8"></a>    <span class="at">title    =</span> <span class="st">"Most Patents by Top US Companies in August 2014"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9"></a>    <span class="at">x =</span> <span class="st">"Top 10 US Companies"</span>, <span class="co"># Override defaults for x and y</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>    <span class="at">y =</span> <span class="st">"Quantity"</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="section-1" class="level1" data-number="9"><h1 data-number="9">
+<span class="header-section-number">9</span> 3.3.1</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-8_d3ed829e2c4ecfd960f7d1e00190926f">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>patent_dt3 <span class="ot">&lt;-</span> patent_assignee_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">left_join</span>(assignee_tbl, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"assignee_id"</span> <span class="ot">=</span> <span class="st">"id"</span>), <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="fu">left_join</span>(uspc_tbl, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"patent_id"</span> <span class="ot">=</span> <span class="st">"patent_id"</span>), <span class="at">relationship =</span> <span class="st">"many-to-many"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>top_10_companies <span class="ot">&lt;-</span> patent_dt3 <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>  <span class="fu">group_by</span>(organization) <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>  <span class="fu">summarise</span>(<span class="at">num_patents =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>, num_patents)</span>
+<span id="cb8-9"><a href="#cb8-9"></a></span>
+<span id="cb8-10"><a href="#cb8-10"></a>top_5_USPTO <span class="ot">&lt;-</span> patent_dt3 <span class="sc">%&gt;%</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>  <span class="fu">filter</span>(organization <span class="sc">%in%</span> top_10_companies<span class="sc">$</span>organization) <span class="sc">%&gt;%</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a>  <span class="fu">group_by</span>(mainclass_id) <span class="sc">%&gt;%</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>  <span class="fu">summarise</span>(<span class="at">num_patents_per_mainclass =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>,num_patents_per_mainclass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="section-2" class="level1" data-number="10"><h1 data-number="10">
+<span class="header-section-number">10</span> 3.3.2</h1>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-9_c2cc86b1bf1e8397c5b237358328d6cb">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>top_5_USPTO <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mainclass_id, <span class="at">y=</span>num_patents_per_mainclass)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> num_patents_per_mainclass), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#2DC6D6"</span>) <span class="sc">+</span> </span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span> </span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-7"><a href="#cb9-7"></a>    <span class="at">title    =</span> <span class="st">"Top 5 USPTO Classes by Top 10 Companies"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8"></a>    <span class="at">x =</span> <span class="st">"Main Class ID"</span>, <span class="co"># Override defaults for x and y</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>    <span class="at">y =</span> <span class="st">"Quantity"</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
-<section id="libraries--" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 1.0 LIBRARIES —-</h1>
-<p>library(dplyr) library(vroom) library(ggplot2) library(data.table) # 2.0 ASSIGNING COLUMN TYPES col_types &lt;- list( id = col_character(), patent_id = col_character(), assignee_id = col_character(), mainclass_id = col_character(), type = col_character(), number = col_character(), country = col_character(), organization = col_character(), date = col_date(“%Y-%m-%d”), abstract = col_character(), title = col_character(), kind = col_character(), num_claims = col_double(), filename = col_character(), withdrawn = col_double(), sequence = col_integer() )</p>
-</section>
-<section id="importing-files-into-tables" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> 3.0 IMPORTING FILES INTO TABLES</h1>
-<p>patent_tbl &lt;- vroom( file = “C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/patent.tsv”, delim = “, col_types = col_types[c(”id”, ”date”, ”num_claims”)], na = c(”“,”NA”, “NULL”) )</p>
-<p>patent_assignee_tbl &lt;- vroom( file = “C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/patent_assignee.tsv”, delim = “, col_types = col_types[c(”patent_id”, ”assignee_id”)], na = c(”“,”NA”, “NULL”) )</p>
-<p>assignee_tbl &lt;- vroom( file = “C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/assignee.tsv”, delim = “, col_types = col_types[c(”id”, ”type”, ”organization”)], na = c(”“,”NA”, “NULL”) )</p>
-<p>uspc_tbl &lt;- vroom( file = “C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/uspc.tsv”, delim = “, col_types = col_types[c(”patent_id”, ”mainclass_id”, ”sequence”)], na = c(”“,”NA”, “NULL”) ) # 3.1 Question 1 # 3.1.1 Manipulating the data</p>
-<p>patent_assignee_dt &lt;- merge(patent_assignee_tbl, assignee_tbl, by.x = “assignee_id”, by.y = “id”, all.x = T) %&gt;% filter(type == 2) %&gt;% group_by(organization) %&gt;% summarize(quantity = n()) %&gt;% arrange(desc(quantity))</p>
-</section>
-<section id="visualizing-the-data" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 3.1.2 Visualizing the data</h1>
-<p>patent_assignee_dt %&gt;% slice(1:10) %&gt;% ggplot(aes(x=organization, y=quantity)) + geom_label(aes(label = quantity), vjust = -0.2) + geom_col(fill = “#2DC6D6”) + theme(axis.text.x = element_text(angle = 45, hjust = 1))+ labs( title = “Patents by Top US Companies”, x = “Top 10 US Companies”, # Override defaults for x and y y = “Quantity” )</p>
-</section>
-<section id="section" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> 3.2.1</h1>
-<p>patent_dt2 &lt;- patent_tbl %&gt;% left_join(patent_assignee_tbl, by = c(“id” = “patent_id”)) %&gt;% left_join(assignee_tbl, by = c(“assignee_id” = “id”)) %&gt;% filter(type == 2 &amp; date&gt;= “2014-08-01” &amp; date&lt;= “2014-08-31”) %&gt;% group_by(organization) %&gt;% summarise(quantity = n()) %&gt;% ungroup() %&gt;% arrange(desc(quantity))</p>
-</section>
-<section id="visualizing-the-data-1" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> 3.2.2 Visualizing the data</h1>
-<p>patent_dt2 %&gt;% slice(1:10) %&gt;% ggplot(aes(x=organization, y=quantity)) + geom_label(aes(label = quantity), vjust = -0.2) + geom_col(fill = “#2DC6D6”) + theme(axis.text.x = element_text(angle = 45, hjust = 1))+ labs( title = “Most Patents by Top US Companies in August 2014”, x = “Top 10 US Companies”, # Override defaults for x and y y = “Quantity” )</p>
-</section>
-<section id="section-1" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> 3.3.1</h1>
-<p>patent_dt3 &lt;- patent_assignee_tbl %&gt;% left_join(assignee_tbl, by = c(“assignee_id” = “id”), relationship = “many-to-many”) %&gt;% left_join(uspc_tbl, by = c(“patent_id” = “patent_id”), relationship = “many-to-many”)</p>
-<p>top_10_companies &lt;- patent_dt3 %&gt;% group_by(organization) %&gt;% summarise(num_patents = n()) %&gt;% top_n(10, num_patents)</p>
-<p>top_5_USPTO &lt;- patent_dt3 %&gt;% filter(organization %in% top_10_companies$organization) %&gt;% group_by(mainclass_id) %&gt;% summarise(num_patents_per_mainclass = n()) %&gt;% na.omit() %&gt;% top_n(5,num_patents_per_mainclass)</p>
-<p>top_5_USPTO %&gt;% ggplot(aes(x=mainclass_id, y=num_patents_per_mainclass)) + geom_label(aes(label = num_patents_per_mainclass), vjust = -0.2) + geom_col(fill = “#2DC6D6”) + theme(axis.text.x = element_text(angle = 45, hjust = 1))+ labs( title = “Top 5 USPTO Classes by Top 10 Companies”, x = “Main Class ID”, # Override defaults for x and y y = “Quantity” )</p>
 
-
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
