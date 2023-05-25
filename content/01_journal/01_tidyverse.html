@@ -174,7 +174,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="#excel--" id="toc-excel--" class="nav-link" data-scroll-target="#excel--"><span class="header-section-number">7.1</span> Excel —-</a></li>
   <li><a href="#csv--" id="toc-csv--" class="nav-link" data-scroll-target="#csv--"><span class="header-section-number">7.2</span> CSV —-</a></li>
   <li><a href="#rds--" id="toc-rds--" class="nav-link" data-scroll-target="#rds--"><span class="header-section-number">7.3</span> RDS —-</a></li>
-  <li><a href="#png" id="toc-png" class="nav-link" data-scroll-target="#png"><span class="header-section-number">7.4</span> PNG</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -204,18 +203,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The following is the code to analyze the bike sales based on different location and based on year.</p>
 <section id="loading-necessary-libraries--" class="level1" data-number="1"><h1 data-number="1">
 <span class="header-section-number">1</span> Loading necessary libraries —-</h1>
-<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-1_d2062e7c601fb1c9b651e6d89429af70">
+<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-1_6c0f89687fedd2fa220d8a8f405a9269">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(rmarkdown)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="importing-files--" class="level1" data-number="2"><h1 data-number="2">
 <span class="header-section-number">2</span> Importing Files —-</h1>
-<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-2_c737d44e85305ac0eeaf070ac5b6ecea">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>bikes_tbl <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"content/00_raw_data/01_bike_sales/01_raw_data/bikes.xlsx"</span>)</span>
+<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-2_610424523eaeb987d9d6e287deaab74d">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>bikes_tbl <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="at">path =</span> <span class="st">"/content/00_data/01_bike_sales/01_raw_data/bikes.xlsx"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>bikeshops_tbl <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"content/00_raw_data/01_bike_sales/01_raw_data/bikeshops.xlsx"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>bikeshops_tbl <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"content/00_data/01_bike_sales/01_raw_data/bikeshops.xlsx"</span>)</span>
 <span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>orderlines_tbl <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"content/00_raw_data/01_bike_sales/01_raw_data/orderlines.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5"></a>orderlines_tbl <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"content/00_data/01_bike_sales/01_raw_data/orderlines.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="examining-data--" class="level1" data-number="3"><h1 data-number="3">
 <span class="header-section-number">3</span> Examining Data —-</h1>
@@ -322,25 +322,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="excel--" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="excel--">
 <span class="header-section-number">7.1</span> Excel —-</h2>
-<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-12_de89958e8fbff4c73f3998971586c0bf">
+<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-12_b7f2a8447e2b0494235474bd4c9793c9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>bike_orderlines_wrangled_tbl <span class="sc">%&gt;%</span> </span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">write_xlsx</span>(<span class="st">"00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">write_xlsx</span>(<span class="st">"content/00_data/01_bike_sales/02_wrangled_data/bike_orderlines.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="csv--" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="csv--">
 <span class="header-section-number">7.2</span> CSV —-</h2>
-<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-13_aef7e5d9b9cb9e24c9dcd04e8bc97024">
+<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-13_68e81f9fcfe3e669e517aefa2de42025">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>bike_orderlines_wrangled_tbl <span class="sc">%&gt;%</span> </span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">write_csv</span>(<span class="st">"00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">write_csv</span>(<span class="st">"content/00_data/01_bike_sales/02_wrangled_data/bike_orderlines.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="rds--" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="rds--">
 <span class="header-section-number">7.3</span> RDS —-</h2>
-<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-14_ba4e0888fb7b2936b60d58f3e1e44e78">
+<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-14_2c9a186428a3e3fc414379fa6efa5bef">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>bike_orderlines_wrangled_tbl <span class="sc">%&gt;%</span> </span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">write_rds</span>(<span class="st">"00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">write_rds</span>(<span class="st">"content/00_data/01_bike_sales/02_wrangled_data/bike_orderlines.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="png" class="level2" data-number="7.4"><h2 data-number="7.4" class="anchored" data-anchor-id="png">
-<span class="header-section-number">7.4</span> PNG</h2>
-<p>```{r} #| eval: false #| png(file = “content/01_journal/01_tidyverse_files/figure-html/sales_by_loc”, width = 600, height = 350)</p>
 
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
