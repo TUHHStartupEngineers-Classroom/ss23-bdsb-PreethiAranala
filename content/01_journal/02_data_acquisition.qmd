@@ -1,4 +1,5 @@
 ---
+format: html
 title: "Data Acquisition"
 author: "Preethi Aranala"
 ---
@@ -14,30 +15,29 @@ author: "Preethi Aranala"
 library(tidyverse) # Main Package - Loads dplyr, purrr, etc.
 library(readr)     # HTML Hacking & Web Scraping
 library(xopen)     # Quickly opening URLs
-library(purrr)  # converts JSON files to R objects
 library(glue)      # concatenate strings
 library(stringi)   # character string/text processing
-library(dplyr)
+library(xml2)
+library(rvest)
 ```
 
 # 2.0 Collect Product Categories
 
 ```{r}
-#| eval: false
+#| eval: true
 #| 
 url_home          <- "https://www.rosebikes.com/bikes/mtb/cross-country"
 xopen(url_home)
 html_home         <- read_html(url_home)
-xopen(url_home)
 
 bike_category_tbl <- html_home %>%
-html_nodes(css = "a.btn.btn--primary.btn--block.catalog-category-bikes__button") %>%
-html_attr('href') %>%
-enframe(name = "position", value = "subdirectory") %>%
-mutate(
-url = glue("https://www.rosebikes.com{subdirectory}")
-) %>%
-distinct(url)
+  html_nodes(css = "a.btn.btn--primary.btn--block.catalog-category-bikes__button") %>%
+  html_attr('href') %>%
+  enframe(name = "position", value = "subdirectory") %>%
+  mutate(
+    url = glue("https://www.rosebikes.com{subdirectory}")
+  ) %>%
+  distinct(url)
 
 library(knitr)
 
@@ -53,23 +53,23 @@ kable(head(bike_category_tbl))
 bike_type_tbl <- tibble()
 
 for (url in bike_category_tbl$url) {
-xopen(url)
-html_bike_type <- read_html(url)
-
-model_name <- html_bike_type %>%
-html_nodes(css = ".catalog-category-model__title") %>%
-html_text() 
-
-
-price <- html_bike_type %>%
-html_nodes(css = ".catalog-category-model__price-current-value") %>%
-html_text() %>%
-str_remove_all("[^0-9.]") %>%
-as.numeric()
-
-bike_type_tbl <- bind_rows(bike_type_tbl, tibble(model_name, price)) %>%
-distinct(model_name, .keep_all = TRUE)
-
+  xopen(url)
+  html_bike_type <- read_html(url)
+  
+  model_name <- html_bike_type %>%
+    html_nodes(css = ".catalog-category-model__title") %>%
+    html_text() 
+  
+  
+  price <- html_bike_type %>%
+    html_nodes(css = ".catalog-category-model__price-current-value") %>%
+    html_text() %>%
+    str_remove_all("[^0-9.]") %>%
+    as.numeric()
+  
+  bike_type_tbl <- bind_rows(bike_type_tbl, tibble(model_name, price)) %>%
+    distinct(model_name, .keep_all = TRUE)
+  
 }
 kable(head(bike_type_tbl))
 ```
@@ -87,7 +87,7 @@ library(glue)
 library(jsonlite)
 
 con <- RSQLite::dbConnect(drv    = SQLite(), 
-dbname = "00_raw_data/02_chinook/Chinook_Sqlite.sqlite")
+                          dbname = "00_raw_data/02_chinook/Chinook_Sqlite.sqlite")
 
 album_tbl <- tbl(con,"Album") %>% collect()
 
@@ -98,16 +98,16 @@ resp <- GET("https://swapi.dev/api/people/1/")
 
 # Wrapped into a function
 sw_api <- function(path) {
-url <- modify_url(url = "https://swapi.dev", path = glue("/api{path}"))
-resp <- GET(url)
-stop_for_status(resp) # automatically throws an error if a request did not succeed
+  url <- modify_url(url = "https://swapi.dev", path = glue("/api{path}"))
+  resp <- GET(url)
+  stop_for_status(resp) # automatically throws an error if a request did not succeed
 }
 
 resp <- sw_api("/people/1")
 resp                     
 
 resp %>% 
-.$content %>% 
-rawToChar() %>% 
-fromJSON()
+  .$content %>% 
+  rawToChar() %>% 
+  fromJSON()
 ```
