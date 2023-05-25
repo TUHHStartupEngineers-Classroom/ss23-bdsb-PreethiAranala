@@ -1,8 +1,66 @@
 ---
 title: "Data Acquisition"
-author: "Joschka Schwarz"
+author: "Preethi Aranala"
 ---
 
-::: callout-note
-You can delete everything in here and start fresh.
-:::
+# WEBSCRAPING ----
+
+# 1.0 LIBRARIES ----
+
+library(tidyverse) # Main Package - Loads dplyr, purrr, etc.
+library(rvest)     # HTML Hacking & Web Scraping
+library(xopen)     # Quickly opening URLs
+library(jsonlite)  # converts JSON files to R objects
+library(glue)      # concatenate strings
+library(stringi)   # character string/text processing
+library(dplyr)
+
+# Collect Product Categories
+
+url_home          <- "https://www.rosebikes.com/bikes/mtb/cross-country"
+xopen(url_home) # Open links directly from RStudio to inspect them
+
+# Read in the HTML for the entire webpage
+html_home         <- read_html(url_home)
+xopen(url_home)
+# Web scrape the ids for the families
+bike_category_tbl <- html_home %>%
+  html_nodes(css = "a.btn.btn--primary.btn--block.catalog-category-bikes__button") %>%
+  html_attr('href') %>%
+  enframe(name = "position", value = "subdirectory") %>%
+  mutate(
+  url = glue("https://www.rosebikes.com{subdirectory}")
+) %>%
+distinct(url)
+bike_category_tbl
+
+# 2.0 COLLECT BIKE DATA ----
+
+# 2.1 Get URL for each bike of the Product categories
+
+# select first bike category url
+
+bike_type_tbl <- tibble()
+
+for (url in bike_category_tbl$url) {
+  xopen(url)
+  html_bike_type <- read_html(url)
+  
+  model_name <- html_bike_type %>%
+  html_nodes(css = ".catalog-category-model__title") %>%
+  html_text() 
+  
+
+price <- html_bike_type %>%
+  html_nodes(css = ".catalog-category-model__price-current-value") %>%
+  html_text() %>%
+  str_remove_all("[^0-9.]") %>%
+  as.numeric()
+  
+  bike_type_tbl <- bind_rows(bike_type_tbl, tibble(model_name, price)) %>%
+  distinct(model_name, .keep_all = TRUE)
+  
+}
+
+bike_type_tbl 
+
