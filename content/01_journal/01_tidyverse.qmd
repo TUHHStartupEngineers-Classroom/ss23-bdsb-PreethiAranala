@@ -4,9 +4,13 @@ title: "Tidyverse"
 author: "Preethi Aranala"
 ---
 
-# SALES ANALYSIS ----
+SALES ANALYSIS ----
 
-# 1.0 Loading necessary libraries ----
+::: callout-note
+The following is the code to analyze the bike sales based on different location and based on year.
+:::
+
+# Loading necessary libraries ----
 
 ```{r}
 #| eval: false
@@ -14,9 +18,10 @@ author: "Preethi Aranala"
 
 library(tidyverse)
 library(readxl)
+
 ```
 
-# 2.0 Importing Files ----
+# Importing Files ----
 
 ```{r}
 #| eval: false
@@ -29,7 +34,7 @@ bikeshops_tbl <- read_excel("00_raw_data/01_bike_sales/01_raw_data/bikeshops.xls
 orderlines_tbl <- read_excel("00_raw_data/01_bike_sales/01_raw_data/orderlines.xlsx")
 ```
 
-# 3.0 Examining Data ----
+# Examining Data ----
 
 ```{r}
 #| eval: false
@@ -40,7 +45,7 @@ orderlines_tbl %>% glimpse()
 
 ```
 
-# 4.0 Joining Data ----
+# Joining Data ----
 
 ```{r}
 #| eval: false
@@ -52,7 +57,7 @@ bike_orderlines_joined_tbl %>% glimpse()
 
 ```
 
-# 5.0 Wrangling Data ----
+# Wrangling Data ----
 
 ```{r}
 #| eval: false
@@ -73,11 +78,11 @@ bike_orderlines_wrangled_tbl <- bike_orderlines_joined_tbl %>%
 
 ```
 
-# 6.0 Business Insights ----
+# Business Insights ----
 
-# 6.1 Sales by Location ----
+## Sales by Location ----
 
-# Step 1 - Manipulate
+### Step 1 - Manipulate
 
 ```{r}
 #| eval: false
@@ -95,13 +100,13 @@ sales_by_loc_tbl
 
 ```
 
-# Step 2 - Visualize
+### Step 2 - Visualize
 
 ```{r}
 #| eval: false
 #| 
 
-sales_by_loc_tbl %>%
+sales_by_loc_plot <- sales_by_loc_tbl %>%
 ggplot(aes(x = state, y = sales)) +
 geom_col(fill = "#2DC6D6") + 
 geom_label(aes(label = revenue)) + 
@@ -117,7 +122,7 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))+                 labs(
 
 ```
 
-# 6.2 Sales by State and Year ----
+## Sales by State and Year ----
 
 ```{r}
 #| eval: false
@@ -126,7 +131,7 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))+                 labs(
 library(lubridate)
 ```
 
-# Step 1 - Manipulate
+### Step 1 - Manipulate
 
 ```{r}
 #| eval: false
@@ -143,12 +148,12 @@ mutate(sales_text = scales::dollar(sales, big.mark = ".",
 sales_by_year_tbl
 ```
 
-# Step 2 - Visualize
+### Step 2 - Visualize
 
 ```{r}
 #| eval: false
 #| 
-sales_by_year_tbl %>%
+sales_by_year_plot <- sales_by_year_tbl %>%
   ggplot(aes(x = year, y = sales, fill = state)) +
   geom_col() + # Run up to here to get a stacked bar plot
   facet_wrap(~ state) +
@@ -162,7 +167,7 @@ sales_by_year_tbl %>%
   )
 ```
 
-# 7.0 Writing Files ----
+# Writing Files ----
 
 ```{r}
 #| eval: false
@@ -170,7 +175,7 @@ sales_by_year_tbl %>%
 library(writexl)
 ```
 
-# 7.1 Excel ----
+## Excel ----
 
 ```{r}
 #| eval: false
@@ -179,7 +184,7 @@ bike_orderlines_wrangled_tbl %>%
 write_xlsx("00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.xlsx")
 ```
 
-# 7.2 CSV ----
+## CSV ----
 
 ```{r}
 #| eval: false
@@ -189,7 +194,7 @@ bike_orderlines_wrangled_tbl %>%
 write_csv("00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.csv")
 ```
 
-# 7.3 RDS ----
+## RDS ----
 
 ```{r}
 #| eval: false
@@ -197,3 +202,10 @@ write_csv("00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.csv")
 bike_orderlines_wrangled_tbl %>% 
 write_rds("00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.rds")
 ```
+
+## PNG
+```{r}
+#| eval: false
+#| 
+png(file = "content/01_journal/01_tidyverse_files/figure-html/sales_by_loc", 
+    width = 600, height = 350)
