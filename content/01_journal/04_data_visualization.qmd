@@ -3,7 +3,7 @@ title: "Data Visualization"
 author: "Preethi Aranala"
 ---
 
-# 1.0 Libraries
+# Libraries
 
 ```{r}
 #| eval: false
@@ -17,7 +17,7 @@ library(readr)
 
 ```
 
-# 2.0 Importing Data from Web
+# Importing Data from Web
 
 ```{r}
 #| eval: false
@@ -29,15 +29,16 @@ covid_refined_tbl <- covid_data_tbl %>%
 
 ```
 
-# 3.0 Challenge 1
+# Challenge 1
 
-# 3.1 Data Manipulation
+## Data Manipulation
 
 ```{r}
 #| eval: false
 #| 
 covid_refined_tbl$date <- as.Date(covid_refined_tbl$date)
 covid_refined_tbl <- covid_refined_tbl %>%
+  na.omit() %>%
   mutate(month = floor_date(date, unit = "month"),
          day = day(date)) %>% 
   group_by(month) %>%
@@ -49,7 +50,7 @@ million <- function(x) {
 
 ```
 
-# 3.2 Data Visualization
+## Data Visualization
 
 ```{r}
 #| eval: false
@@ -64,7 +65,7 @@ ggplot(covid_refined_tbl, aes(x = month, y = total_cases, color = location)) +
   labs(title = "COVID-19 confirmed cases worldwide")
 ```
 
-# 4.0 Challenge 2
+# Challenge 2
 
 ```{r}
 #| eval: false
@@ -74,16 +75,11 @@ library(maps)
 world <- map_data("world") 
 ```
 
-# 4.1 Data Manipulation
+## Data Manipulation
 
 ```{r}
 #| eval: false
 #| 
-
-
-library(maps)
-
-world <- map_data("world") 
 
 covid_geo_tbl <- covid_data_tbl %>%
   select(location, date, total_cases, total_deaths)
@@ -104,8 +100,6 @@ covid_geo_tbl$day <- NULL
 
 world_united <- covid_geo_tbl %>%
   left_join(world, by = c("location" = "region"), relationship = "many-to-many") %>%
-  
-  left_join(world_tbl, by = c("location" = "region"), relationship = "many-to-many") %>%
   mutate(location = case_when(
     location == "United Kingdom" ~ "UK",
     location == "United States" ~ "USA",
@@ -116,7 +110,7 @@ world_united <- covid_geo_tbl %>%
 
 ```
 
-# 4.2 Data Visualization
+## Data Visualization
 
 ```{r}
 #| eval: false
