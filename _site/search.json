@@ -46,7 +46,7 @@
     "href": "content/01_journal/04_data_visualization.html#data-visualization",
     "title": "Data Visualization",
     "section": "\n3.2 Data Visualization",
-    "text": "3.2 Data Visualization\n\nggplot(covid_refined_tbl, aes(x = month, y = total_cases, color = location)) +\n  geom_line() +\n  labs(x = \"Month\", y = \"Cumulative Cases\", color = \"Country\") +\n  scale_x_date(date_breaks = \"1 month\", date_labels = \"%Y-%m\") +\n  scale_y_continuous(labels = million) +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +\n  labs(title = \"COVID-19 confirmed cases worldwide\")\n\n\n\nCaption"
+    "text": "3.2 Data Visualization\n\nggplot(covid_refined_tbl, aes(x = month, y = total_cases, color = location)) +\n  geom_line() +\n  labs(x = \"Month\", y = \"Cumulative Cases\", color = \"Country\") +\n  scale_x_date(date_breaks = \"1 month\", date_labels = \"%Y-%m\") +\n  scale_y_continuous(labels = million) +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12)) +\n  labs(title = \"COVID-19 confirmed cases worldwide\")\n\n\n\nPlot showing cumulative cases of COVID-19 worldwide from December 2019 to May 2023"
   },
   {
     "objectID": "content/01_journal/04_data_visualization.html#data-manipulation-1",
@@ -60,6 +60,69 @@
     "href": "content/01_journal/04_data_visualization.html#data-visualization-1",
     "title": "Data Visualization",
     "section": "\n4.2 Data Visualization",
-    "text": "4.2 Data Visualization\n\nggplot(world_united, aes(x = long, y = lat, map_id = location, fill = case_fatality)) +\n  geom_map(map = world, aes(fill = case_fatality, map_id = location, x = long, y = lat), color = \"black\") +\n  scale_fill_gradient(low = \"orange\", high = \"red\", na.value = \"gray\", name = \"Case Fatality Percent\") +\n  labs(title = \"Case Fatality Map\",\n       subtitle = \"as of 2023-05-17\") +\n  theme(axis.text = element_blank(),\n        axis.title = element_blank())\n\n\n\nCaption"
+    "text": "4.2 Data Visualization\n\nggplot(world_united, aes(x = long, y = lat, map_id = location, fill = case_fatality)) +\n  geom_map(map = world, aes(fill = case_fatality, map_id = location, x = long, y = lat), color = \"black\") +\n  scale_fill_gradient(low = \"orange\", high = \"red\", na.value = \"gray\", name = \"Case Fatality Percent\") +\n  labs(title = \"Case Fatality Map\",\n       subtitle = \"as of 2023-05-17\") +\n  theme(axis.text = element_blank(),\n        axis.title = element_blank())\n\n\n\nPlot showing case fatality percentage of countries throughout the world as of 17-05-2023"
+  },
+  {
+    "objectID": "content/01_journal/01_tidyverse.html",
+    "href": "content/01_journal/01_tidyverse.html",
+    "title": "Tidyverse",
+    "section": "",
+    "text": "SALES ANALYSIS —-\nThe following is the code to analyze the bike sales based on different location and based on year."
+  },
+  {
+    "objectID": "content/01_journal/01_tidyverse.html#sales-by-location--",
+    "href": "content/01_journal/01_tidyverse.html#sales-by-location--",
+    "title": "Tidyverse",
+    "section": "\n6.1 Sales by Location —-",
+    "text": "6.1 Sales by Location —-\nStep 1 - Manipulate\n\nsales_by_loc_tbl &lt;- bike_orderlines_wrangled_tbl %&gt;%\ngroup_by(state) %&gt;% \nsummarize(sales = sum(total_price)) %&gt;%\nmutate(revenue = scales::dollar(sales, big.mark = \".\", \n                                     decimal.mark = \",\", \n                                     prefix = \"\", \n                                     suffix = \" €\"))\n\nsales_by_loc_tbl\n\nStep 2 - Visualize\n\nsales_by_loc_plot &lt;- sales_by_loc_tbl %&gt;%\nggplot(aes(x = state, y = sales)) +\ngeom_col(fill = \"#2DC6D6\") + \ngeom_label(aes(label = revenue)) + \nscale_y_continuous(labels = scales::dollar_format(big.mark = \".\", \n                                                    decimal.mark = \",\", \n                                                    prefix = \"\", \n                                                    suffix = \" €\")) +\ntheme(axis.text.x = element_text(angle = 45, hjust = 1))+                 labs(\n    title    = \"Revenue by State\",\n    x = \"\", # Override defaults for x and y\n    y = \"Revenue\"\n  )"
+  },
+  {
+    "objectID": "content/01_journal/01_tidyverse.html#sales-by-state-and-year--",
+    "href": "content/01_journal/01_tidyverse.html#sales-by-state-and-year--",
+    "title": "Tidyverse",
+    "section": "\n6.2 Sales by State and Year —-",
+    "text": "6.2 Sales by State and Year —-\n\nlibrary(lubridate)\n\nStep 1 - Manipulate\n\nsales_by_year_tbl &lt;- bike_orderlines_wrangled_tbl %&gt;%\nselect(state, order_date, total_price) %&gt;%\nmutate(year = year(order_date)) %&gt;%\ngroup_by(state, year) %&gt;% \nsummarize(sales = sum(total_price)) %&gt;%\nmutate(sales_text = scales::dollar(sales, big.mark = \".\", \n                                     decimal.mark = \",\", \n                                     prefix = \"\", \n                                     suffix = \" €\"))\nsales_by_year_tbl\n\nStep 2 - Visualize\n\nsales_by_year_plot &lt;- sales_by_year_tbl %&gt;%\n  ggplot(aes(x = year, y = sales, fill = state)) +\n  geom_col() + # Run up to here to get a stacked bar plot\n  facet_wrap(~ state) +\n  scale_y_continuous(labels = scales::dollar_format(big.mark = \".\", \n                                                    decimal.mark = \",\", \n                                                    prefix = \"\", \n                                                    suffix = \" €\")) +\n  labs(\n    title = \"Revenue by Year and State\",\n    fill = \"States\" \n  )"
+  },
+  {
+    "objectID": "content/01_journal/01_tidyverse.html#excel--",
+    "href": "content/01_journal/01_tidyverse.html#excel--",
+    "title": "Tidyverse",
+    "section": "\n7.1 Excel —-",
+    "text": "7.1 Excel —-\n\nbike_orderlines_wrangled_tbl %&gt;% \nwrite_xlsx(\"content/00_data/01_bike_sales/02_wrangled_data/bike_orderlines.xlsx\")"
+  },
+  {
+    "objectID": "content/01_journal/01_tidyverse.html#csv--",
+    "href": "content/01_journal/01_tidyverse.html#csv--",
+    "title": "Tidyverse",
+    "section": "\n7.2 CSV —-",
+    "text": "7.2 CSV —-\n\nbike_orderlines_wrangled_tbl %&gt;% \nwrite_csv(\"content/00_data/01_bike_sales/02_wrangled_data/bike_orderlines.csv\")"
+  },
+  {
+    "objectID": "content/01_journal/01_tidyverse.html#rds--",
+    "href": "content/01_journal/01_tidyverse.html#rds--",
+    "title": "Tidyverse",
+    "section": "\n7.3 RDS —-",
+    "text": "7.3 RDS —-\n\nbike_orderlines_wrangled_tbl %&gt;% \nwrite_rds(\"content/00_data/01_bike_sales/02_wrangled_data/bike_orderlines.rds\")"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My Lab Journal",
+    "section": "",
+    "text": "This is a template example for lab journaling. Students in the data science courses at the Institute of Entrepreneurship will use this template to learn R for business analytics. Students can replace this text as they wish."
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "My Lab Journal",
+    "section": "How to use",
+    "text": "How to use\n\nAccept the assignment and get your own github repo.\nBlog/journal what you are doing in R, by editing the .qmd files.\nSee the links page for lots of helpful links on learning R.\nChange everything to make it your own.\nMake sure to render you website everytime before you want to upload changes"
+  },
+  {
+    "objectID": "content/02_notes/05_class_notes.html",
+    "href": "content/02_notes/05_class_notes.html",
+    "title": "Class Notes",
+    "section": "",
+    "text": "IMPORTANT: You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.\nThis is an .qmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a # in front of your text, it will create a top level-header."
   }
 ]
