@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "content/01_journal/04_data_visualization.html",
+    "href": "content/01_journal/04_data_visualization.html",
+    "title": "Data Visualization",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(lubridate)\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(readr)"
+  },
+  {
+    "objectID": "content/01_journal/02_data_acquisition.html",
+    "href": "content/01_journal/02_data_acquisition.html",
+    "title": "Data Acquisition",
+    "section": "",
+    "text": "1 Challenge 2: WEBSCRAPING —-\n\n2 1.0 Libraries —-\n\nlibrary(tidyverse) # Main Package - Loads dplyr, purrr, etc.\nlibrary(readr)     # HTML Hacking & Web Scraping\nlibrary(xopen)     # Quickly opening URLs\nlibrary(glue)      # concatenate strings\nlibrary(stringi)   # character string/text processing\nlibrary(xml2)\n\n\n3 2.0 Collect Product Categories\n\nurl_home          &lt;- \"https://www.rosebikes.com/bikes/mtb/cross-country\"\nxopen(url_home)\nhtml_home         &lt;- read_html(url_home)\n\nbike_category_tbl &lt;- html_home %&gt;%\n  html_nodes(css = \"a.btn.btn--primary.btn--block.catalog-category-bikes__button\") %&gt;%\n  html_attr('href') %&gt;%\n  enframe(name = \"position\", value = \"subdirectory\") %&gt;%\n  mutate(\n    url = glue(\"https://www.rosebikes.com{subdirectory}\")\n  ) %&gt;%\n  distinct(url)\n\nlibrary(knitr)\n\nkable(head(bike_category_tbl))\n\n\n4 3.0 Collect Bike Category and Price—-\n\nbike_type_tbl &lt;- tibble()\n\nfor (url in bike_category_tbl$url) {\n  xopen(url)\n  html_bike_type &lt;- read_html(url)\n  \n  model_name &lt;- html_bike_type %&gt;%\n    html_nodes(css = \".catalog-category-model__title\") %&gt;%\n    html_text() \n  \n  \n  price &lt;- html_bike_type %&gt;%\n    html_nodes(css = \".catalog-category-model__price-current-value\") %&gt;%\n    html_text() %&gt;%\n    str_remove_all(\"[^0-9.]\") %&gt;%\n    as.numeric()\n  \n  bike_type_tbl &lt;- bind_rows(bike_type_tbl, tibble(model_name, price)) %&gt;%\n    distinct(model_name, .keep_all = TRUE)\n  \n}\nkable(head(bike_type_tbl))\n\n\n5 4.0 Challenge 1: API\n\nlibrary(RSQLite)\nlibrary(dplyr)\nlibrary(magrittr)\nlibrary(httr)\nlibrary(glue)\nlibrary(jsonlite)\n\ncon &lt;- RSQLite::dbConnect(drv    = SQLite(), \n                          dbname = \"00_raw_data/02_chinook/Chinook_Sqlite.sqlite\")\n\nalbum_tbl &lt;- tbl(con,\"Album\") %&gt;% collect()\n\ndbDisconnect(con)\ncon\n\nresp &lt;- GET(\"https://swapi.dev/api/people/1/\")\n\n# Wrapped into a function\nsw_api &lt;- function(path) {\n  url &lt;- modify_url(url = \"https://swapi.dev\", path = glue(\"/api{path}\"))\n  resp &lt;- GET(url)\n  stop_for_status(resp) # automatically throws an error if a request did not succeed\n}\n\nresp &lt;- sw_api(\"/people/1\")\nresp                     \n\nresp %&gt;% \n  .$content %&gt;% \n  rawToChar() %&gt;% \n  fromJSON()"
+  },
+  {
+    "objectID": "content/03_other/06_links.html",
+    "href": "content/03_other/06_links.html",
+    "title": "Links",
+    "section": "",
+    "text": "R is a free open-source programming language that can be used for statistical analysis, data-simulation, graphing, and lots of other stuff. Another free program is R-studio, that provides a nice graphic interface for R. Download R first, then download R-studio. Both can run on PCs, Macs or Linux. Students will be learning R in the stats labs using the lab manual .\n\n\n\n\nGoogle is great, Google your problem\nStackoverflow is great, google will often take you there because someone has already asked your question, and someone else has answered, usually many people have answered your question many ways."
+  },
+  {
+    "objectID": "content/03_other/06_links.html#r-and-r-studio",
+    "href": "content/03_other/06_links.html#r-and-r-studio",
+    "title": "Links",
+    "section": "",
+    "text": "R is a free open-source programming language that can be used for statistical analysis, data-simulation, graphing, and lots of other stuff. Another free program is R-studio, that provides a nice graphic interface for R. Download R first, then download R-studio. Both can run on PCs, Macs or Linux. Students will be learning R in the stats labs using the lab manual ."
+  },
+  {
+    "objectID": "content/03_other/06_links.html#additional-r-resources",
+    "href": "content/03_other/06_links.html#additional-r-resources",
+    "title": "Links",
+    "section": "",
+    "text": "Google is great, Google your problem\nStackoverflow is great, google will often take you there because someone has already asked your question, and someone else has answered, usually many people have answered your question many ways."
+  },
+  {
+    "objectID": "content/01_journal/04_data_visualization.html#data-manipulation",
+    "href": "content/01_journal/04_data_visualization.html#data-manipulation",
+    "title": "Data Visualization",
+    "section": "\n3.1 Data Manipulation",
+    "text": "3.1 Data Manipulation\n\ncovid_refined_tbl$date &lt;- as.Date(covid_refined_tbl$date)\ncovid_refined_tbl &lt;- covid_refined_tbl %&gt;%\n  na.omit() %&gt;%\n  mutate(month = floor_date(date, unit = \"month\"),\n         day = day(date)) %&gt;% \n  group_by(month) %&gt;%\n  filter(day == max(day))\n\nmillion &lt;- function(x) {\n  paste0(x / 1000000, \"M\")\n}"
+  },
+  {
+    "objectID": "content/01_journal/04_data_visualization.html#data-visualization",
+    "href": "content/01_journal/04_data_visualization.html#data-visualization",
+    "title": "Data Visualization",
+    "section": "\n3.2 Data Visualization",
+    "text": "3.2 Data Visualization\n\nggplot(covid_refined_tbl, aes(x = month, y = total_cases, color = location)) +\n  geom_line() +\n  labs(x = \"Month\", y = \"Cumulative Cases\", color = \"Country\") +\n  scale_x_date(date_breaks = \"1 month\", date_labels = \"%Y-%m\") +\n  scale_y_continuous(labels = million) +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +\n  labs(title = \"COVID-19 confirmed cases worldwide\")"
+  },
+  {
+    "objectID": "content/01_journal/04_data_visualization.html#data-manipulation-1",
+    "href": "content/01_journal/04_data_visualization.html#data-manipulation-1",
+    "title": "Data Visualization",
+    "section": "\n4.1 Data Manipulation",
+    "text": "4.1 Data Manipulation\n\ncovid_geo_tbl &lt;- covid_data_tbl %&gt;%\n  select(location, date, total_cases, total_deaths)\n\ncovid_geo_tbl$date &lt;- as.Date(covid_geo_tbl$date)\ncovid_geo_tbl &lt;- covid_geo_tbl %&gt;%\n  mutate(month = floor_date(date, unit = \"month\"),\n         day = day(date)) %&gt;% \n  group_by(month) %&gt;%\n  arrange(desc(date)) %&gt;%\n  na.omit() %&gt;%\n  filter(date == \"2023-05-17\") %&gt;%\n  mutate(case_fatality = total_deaths * 100/total_cases)\n\n\ncovid_geo_tbl$month &lt;- NULL\ncovid_geo_tbl$day &lt;- NULL\n\nworld_united &lt;- covid_geo_tbl %&gt;%\n  left_join(world, by = c(\"location\" = \"region\"), relationship = \"many-to-many\") %&gt;%\n  mutate(location = case_when(\n    location == \"United Kingdom\" ~ \"UK\",\n    location == \"United States\" ~ \"USA\",\n    location == \"Democratic Republic of Congo\" ~ \"Democratic Republic of the Congo\",\n    TRUE ~ location\n  )) %&gt;%\n  distinct()"
+  },
+  {
+    "objectID": "content/01_journal/04_data_visualization.html#data-visualization-1",
+    "href": "content/01_journal/04_data_visualization.html#data-visualization-1",
+    "title": "Data Visualization",
+    "section": "\n4.2 Data Visualization",
+    "text": "4.2 Data Visualization\n\nggplot(world_united, aes(x = long, y = lat, map_id = location, fill = case_fatality)) +\n  geom_map(map = world, aes(fill = case_fatality, map_id = location, x = long, y = lat), color = \"black\") +\n  scale_fill_gradient(low = \"orange\", high = \"red\", na.value = \"gray\", name = \"Case Fatality Percent\") +\n  labs(title = \"Case Fatality Map\",\n       subtitle = \"as of 2023-05-17\") +\n  theme(axis.text = element_blank(),\n        axis.title = element_blank())"
+  }
+]
