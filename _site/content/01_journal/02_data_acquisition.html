@@ -188,18 +188,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">1</span> Challenge 2: WEBSCRAPING —-</h1>
 </section><section id="libraries--" class="level1" data-number="2"><h1 data-number="2">
 <span class="header-section-number">2</span> 1.0 Libraries —-</h1>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-1_4e6cf3be9460b286029f5c93e03206c8">
+<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-1_62a3a706165ef9ec7f194eb60e73e5a4">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Main Package - Loads dplyr, purrr, etc.</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(rvest)     <span class="co"># HTML Hacking &amp; Web Scraping</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(readr)     <span class="co"># HTML Hacking &amp; Web Scraping</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(xopen)     <span class="co"># Quickly opening URLs</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(jsonlite)  <span class="co"># converts JSON files to R objects</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(purrr)  <span class="co"># converts JSON files to R objects</span></span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(glue)      <span class="co"># concatenate strings</span></span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(stringi)   <span class="co"># character string/text processing</span></span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="collect-product-categories" class="level1" data-number="3"><h1 data-number="3">
 <span class="header-section-number">3</span> 2.0 Collect Product Categories</h1>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-2_ce15c4ee0ee46dc09b6c3d8cb3da6303">
+<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-2_1bc656390494795be97bc95bb371bf00">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>url_home          <span class="ot">&lt;-</span> <span class="st">"https://www.rosebikes.com/bikes/mtb/cross-country"</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">xopen</span>(url_home)</span>
 <span id="cb2-3"><a href="#cb2-3"></a>html_home         <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url_home)</span>
@@ -213,11 +213,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-11"><a href="#cb2-11"></a><span class="at">url =</span> <span class="fu">glue</span>(<span class="st">"https://www.rosebikes.com{subdirectory}"</span>)</span>
 <span id="cb2-12"><a href="#cb2-12"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-13"><a href="#cb2-13"></a><span class="fu">distinct</span>(url)</span>
-<span id="cb2-14"><a href="#cb2-14"></a>bike_category_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-14"><a href="#cb2-14"></a></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb2-16"><a href="#cb2-16"></a></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="fu">kable</span>(<span class="fu">head</span>(bike_category_tbl))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="collect-bike-category-and-price-" class="level1" data-number="4"><h1 data-number="4">
 <span class="header-section-number">4</span> 3.0 Collect Bike Category and Price—-</h1>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-3_2db2a3b912ba571b955944245b6dee17">
+<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-3_ad79b24a76c293933d5b6c888d085d69">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>bike_type_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="cf">for</span> (url <span class="cf">in</span> bike_category_tbl<span class="sc">$</span>url) {</span>
@@ -238,9 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-18"><a href="#cb3-18"></a>bike_type_tbl <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(bike_type_tbl, <span class="fu">tibble</span>(model_name, price)) <span class="sc">%&gt;%</span></span>
 <span id="cb3-19"><a href="#cb3-19"></a><span class="fu">distinct</span>(model_name, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb3-20"><a href="#cb3-20"></a></span>
-<span id="cb3-21"><a href="#cb3-21"></a>}</span>
-<span id="cb3-22"><a href="#cb3-22"></a></span>
-<span id="cb3-23"><a href="#cb3-23"></a>bike_type_tbl </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-21"><a href="#cb3-21"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="challenge-1-api" class="level1" data-number="5"><h1 data-number="5">
 <span class="header-section-number">5</span> 4.0 Challenge 1: API</h1>

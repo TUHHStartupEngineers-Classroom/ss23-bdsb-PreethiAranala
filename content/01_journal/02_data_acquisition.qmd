@@ -6,20 +6,22 @@ author: "Preethi Aranala"
 # Challenge 2: WEBSCRAPING ----
 
 # 1.0 Libraries ----
+
 ```{r}
 #| eval: false
 #| 
 
 library(tidyverse) # Main Package - Loads dplyr, purrr, etc.
-library(rvest)     # HTML Hacking & Web Scraping
+library(readr)     # HTML Hacking & Web Scraping
 library(xopen)     # Quickly opening URLs
-library(jsonlite)  # converts JSON files to R objects
+library(purrr)  # converts JSON files to R objects
 library(glue)      # concatenate strings
 library(stringi)   # character string/text processing
 library(dplyr)
 ```
 
 # 2.0 Collect Product Categories
+
 ```{r}
 #| eval: false
 #| 
@@ -36,10 +38,14 @@ mutate(
 url = glue("https://www.rosebikes.com{subdirectory}")
 ) %>%
 distinct(url)
-bike_category_tbl
+
+library(knitr)
+
+kable(head(bike_category_tbl))
 ```
 
 # 3.0 Collect Bike Category and Price----
+
 ```{r}
 #| eval: false
 #| 
@@ -65,11 +71,11 @@ bike_type_tbl <- bind_rows(bike_type_tbl, tibble(model_name, price)) %>%
 distinct(model_name, .keep_all = TRUE)
 
 }
-
-bike_type_tbl 
+kable(head(bike_type_tbl))
 ```
 
 # 4.0 Challenge 1: API
+
 ```{r}
 #| eval: false
 #| 

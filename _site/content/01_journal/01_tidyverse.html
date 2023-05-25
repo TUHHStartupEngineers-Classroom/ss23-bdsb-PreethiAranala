@@ -174,6 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="#excel--" id="toc-excel--" class="nav-link" data-scroll-target="#excel--"><span class="header-section-number">7.1</span> Excel —-</a></li>
   <li><a href="#csv--" id="toc-csv--" class="nav-link" data-scroll-target="#csv--"><span class="header-section-number">7.2</span> CSV —-</a></li>
   <li><a href="#rds--" id="toc-rds--" class="nav-link" data-scroll-target="#rds--"><span class="header-section-number">7.3</span> RDS —-</a></li>
+  <li><a href="#png" id="toc-png" class="nav-link" data-scroll-target="#png"><span class="header-section-number">7.4</span> PNG</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -200,9 +201,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 </header><p>SALES ANALYSIS —-</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The following is the code to analyze the bike sales based on different location and based on year.</p>
+</div>
+</div>
 <section id="loading-necessary-libraries--" class="level1" data-number="1"><h1 data-number="1">
 <span class="header-section-number">1</span> Loading necessary libraries —-</h1>
-<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-1_982081be2b3a3ab0f8f3f33518a1b725">
+<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-1_d2062e7c601fb1c9b651e6d89429af70">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -265,8 +279,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-9"><a href="#cb6-9"></a>sales_by_loc_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="step-2---visualize" class="level3"><h3 class="anchored" data-anchor-id="step-2---visualize">Step 2 - Visualize</h3>
-<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-7_bfb8a8ebb3ecf4df579226a6dd42c7fd">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>sales_by_loc_tbl <span class="sc">%&gt;%</span></span>
+<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-7_b40610d7f8f9c48c1455bbbf59407b0a">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>sales_by_loc_plot <span class="ot">&lt;-</span> sales_by_loc_tbl <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> state, <span class="at">y =</span> sales)) <span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#2DC6D6"</span>) <span class="sc">+</span> </span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> revenue)) <span class="sc">+</span> </span>
@@ -299,8 +313,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-10"><a href="#cb9-10"></a>sales_by_year_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="step-2---visualize-1" class="level3"><h3 class="anchored" data-anchor-id="step-2---visualize-1">Step 2 - Visualize</h3>
-<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-10_04b1977c9af539a6daf75e63d0339095">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>sales_by_year_tbl <span class="sc">%&gt;%</span></span>
+<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-10_c72b0b2b83583e4463ef29cafe3a5dbd">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>sales_by_year_plot <span class="ot">&lt;-</span> sales_by_year_tbl <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> sales, <span class="at">fill =</span> state)) <span class="sc">+</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="co"># Run up to here to get a stacked bar plot</span></span>
 <span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> state) <span class="sc">+</span></span>
@@ -336,6 +350,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>bike_orderlines_wrangled_tbl <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="fu">write_rds</span>(<span class="st">"00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section><section id="png" class="level2" data-number="7.4"><h2 data-number="7.4" class="anchored" data-anchor-id="png">
+<span class="header-section-number">7.4</span> PNG</h2>
+<p>```{r} #| eval: false #| png(file = “content/01_journal/01_tidyverse_files/figure-html/sales_by_loc”, width = 600, height = 350)</p>
 
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
