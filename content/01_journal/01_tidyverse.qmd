@@ -26,11 +26,11 @@ library(rmarkdown)
 #| eval: false
 #| 
 
-bikes_tbl <- read_excel("/content/00_data/01_bike_sales/01_raw_data/bikes.xlsx")
+bikes_tbl <- readxl::read_excel("C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala2/content/00_data/01_bike_sales/01_raw_data/bikes.xlsx")
 
-bikeshops_tbl <- read_excel("content/00_data/01_bike_sales/01_raw_data/bikeshops.xlsx")
+bikeshops_tbl <- readxl::read_excel("C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala2/content/00_data/01_bike_sales/01_raw_data/bikeshops.xlsx")
 
-orderlines_tbl <- read_excel("content/00_data/01_bike_sales/01_raw_data/orderlines.xlsx")
+orderlines_tbl <- readxl::read_excel("C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala2/content/00_data/01_bike_sales/01_raw_data/orderlines.xlsx")
 
 ```
 
@@ -106,7 +106,7 @@ sales_by_loc_tbl
 #| eval: false
 #| 
 
-sales_by_loc_plot <- sales_by_loc_tbl %>%
+sales_by_loc_tbl %>%
 ggplot(aes(x = state, y = sales)) +
 geom_col(fill = "#2DC6D6") + 
 geom_label(aes(label = revenue)) + 
@@ -121,6 +121,8 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))+                 labs(
   )
 
 ```
+[![Plot showing revenue obtained by bikeshops in different states of Germany](/content/04_web_images/01_01.jpeg)]
+
 
 ## Sales by State and Year ----
 
@@ -153,7 +155,7 @@ sales_by_year_tbl
 ```{r}
 #| eval: false
 #| 
-sales_by_year_plot <- sales_by_year_tbl %>%
+sales_by_year_tbl %>%
   ggplot(aes(x = year, y = sales, fill = state)) +
   geom_col() + # Run up to here to get a stacked bar plot
   facet_wrap(~ state) +
@@ -166,6 +168,8 @@ sales_by_year_plot <- sales_by_year_tbl %>%
     fill = "States" 
   )
 ```
+[![Plots showing the revenue of bikeshops over a set of years and in different states in Germany](/content/04_web_images/01_02.jpeg)
+
 
 # Writing Files ----
 

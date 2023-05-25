@@ -3,10 +3,11 @@ format: html
 title: "Data Acquisition"
 author: "Preethi Aranala"
 ---
+DATA ACQUISITION
 
 # Challenge 2: WEBSCRAPING ----
 
-# 1.0 Libraries ----
+## Libraries ----
 
 ```{r}
 #| eval: false
@@ -23,7 +24,7 @@ library(rvest)
 
 ```
 
-# 2.0 Collect Product Categories
+## Collect Product Categories
 
 ```{r}
 #| eval: false
@@ -45,11 +46,8 @@ bike_category_tbl <- html_home %>%
 
 kable(head(bike_category_tbl))
 ```
-```{r, results='asis'}
-bike_category_tbl
-```
 
-# 3.0 Collect Bike Category and Price----
+## Collect Bike Category and Price----
 
 ```{r}
 #| eval: false
@@ -79,40 +77,58 @@ for (url in bike_category_tbl$url) {
 kable(head(bike_type_tbl))
 ```
 
-# 4.0 Challenge 1: API
+# Challenge 1: API
+
+## Libraries
+```{r}
+#| eval: false
+#| 
+
+library(dplyr)
+library(httr)
+library(jsonlite)
+
+```
+
+## API Key Retrieval
+```{r}
+#| eval: false
+#| 
+api_key <- Sys.getenv("MY_API_KEY")
+if (is.na(api_key)) {
+  stop("API key not found in the .Renviron file.")
+}
+
+```
+## Open Weather Map API URL
+```{r}
+#| eval: false
+#| 
+
+weather_response <- GET(glue("https://api.openweathermap.org/data/2.55/weather?lat=44.34&lon=10.99&appid={api_key}"))
+
+```
+
+## Response Extraction
+```{r}
+#| eval: false
+#| 
+
+current_weather_data <- content(weather_response, as = "text")
+current_weather <- fromJSON(current_weather_data)
+
+temperature_celsius <- round(current_weather$main$temp - 273.15, 2)
+humidity_percentage <- current_weather$main$humidity
+description <- current_weather$weather[[1]]$description
+
+```
+## Data Manipulation
 
 ```{r}
 #| eval: false
 #| 
-library(RSQLite)
-library(dplyr)
-library(magrittr)
-library(httr)
-library(glue)
-library(jsonlite)
+cat("Current Weather in:", description, "\n")
+cat("Temperature:", temperature_celsius, "°C\n")
+cat("Humidity:", humidity_percentage, "%\n")
 
-con <- RSQLite::dbConnect(drv    = SQLite(), 
-                          dbname = "00_raw_data/02_chinook/Chinook_Sqlite.sqlite")
-
-album_tbl <- tbl(con,"Album") %>% collect()
-
-dbDisconnect(con)
-con
-
-resp <- GET("https://swapi.dev/api/people/1/")
-
-# Wrapped into a function
-sw_api <- function(path) {
-  url <- modify_url(url = "https://swapi.dev", path = glue("/api{path}"))
-  resp <- GET(url)
-  stop_for_status(resp) # automatically throws an error if a request did not succeed
-}
-
-resp <- sw_api("/people/1")
-resp                     
-
-resp %>% 
-  .$content %>% 
-  rawToChar() %>% 
-  fromJSON()
 ```
