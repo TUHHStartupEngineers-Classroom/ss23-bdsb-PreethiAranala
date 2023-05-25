@@ -3,9 +3,12 @@ title: "Data Acquisition"
 author: "Preethi Aranala"
 ---
 
-# WEBSCRAPING ----
+# Challenge 2: WEBSCRAPING ----
 
-# 1.0 LIBRARIES ----
+# 1.0 Libraries ----
+```{r}
+#| eval: false
+#| 
 
 library(tidyverse) # Main Package - Loads dplyr, purrr, etc.
 library(rvest)     # HTML Hacking & Web Scraping
@@ -14,57 +17,62 @@ library(jsonlite)  # converts JSON files to R objects
 library(glue)      # concatenate strings
 library(stringi)   # character string/text processing
 library(dplyr)
+```
 
-# Collect Product Categories
-
+# 2.0 Collect Product Categories
+```{r}
+#| eval: false
+#| 
 url_home          <- "https://www.rosebikes.com/bikes/mtb/cross-country"
-xopen(url_home) # Open links directly from RStudio to inspect them
-
-# Read in the HTML for the entire webpage
+xopen(url_home)
 html_home         <- read_html(url_home)
 xopen(url_home)
-# Web scrape the ids for the families
+
 bike_category_tbl <- html_home %>%
-  html_nodes(css = "a.btn.btn--primary.btn--block.catalog-category-bikes__button") %>%
-  html_attr('href') %>%
-  enframe(name = "position", value = "subdirectory") %>%
-  mutate(
-  url = glue("https://www.rosebikes.com{subdirectory}")
+html_nodes(css = "a.btn.btn--primary.btn--block.catalog-category-bikes__button") %>%
+html_attr('href') %>%
+enframe(name = "position", value = "subdirectory") %>%
+mutate(
+url = glue("https://www.rosebikes.com{subdirectory}")
 ) %>%
 distinct(url)
 bike_category_tbl
+```
 
-# 2.0 COLLECT BIKE DATA ----
-
-# 2.1 Get URL for each bike of the Product categories
-
-# select first bike category url
+# 3.0 Collect Bike Category and Price----
+```{r}
+#| eval: false
+#| 
 
 bike_type_tbl <- tibble()
 
 for (url in bike_category_tbl$url) {
-  xopen(url)
-  html_bike_type <- read_html(url)
-  
-  model_name <- html_bike_type %>%
-  html_nodes(css = ".catalog-category-model__title") %>%
-  html_text() 
-  
+xopen(url)
+html_bike_type <- read_html(url)
+
+model_name <- html_bike_type %>%
+html_nodes(css = ".catalog-category-model__title") %>%
+html_text() 
+
 
 price <- html_bike_type %>%
-  html_nodes(css = ".catalog-category-model__price-current-value") %>%
-  html_text() %>%
-  str_remove_all("[^0-9.]") %>%
-  as.numeric()
-  
-  bike_type_tbl <- bind_rows(bike_type_tbl, tibble(model_name, price)) %>%
-  distinct(model_name, .keep_all = TRUE)
-  
+html_nodes(css = ".catalog-category-model__price-current-value") %>%
+html_text() %>%
+str_remove_all("[^0-9.]") %>%
+as.numeric()
+
+bike_type_tbl <- bind_rows(bike_type_tbl, tibble(model_name, price)) %>%
+distinct(model_name, .keep_all = TRUE)
+
 }
 
 bike_type_tbl 
+```
 
-
+# 4.0 Challenge 1: API
+```{r}
+#| eval: false
+#| 
 library(RSQLite)
 library(dplyr)
 library(magrittr)
@@ -73,7 +81,7 @@ library(glue)
 library(jsonlite)
 
 con <- RSQLite::dbConnect(drv    = SQLite(), 
-                          dbname = "00_raw_data/02_chinook/Chinook_Sqlite.sqlite")
+dbname = "00_raw_data/02_chinook/Chinook_Sqlite.sqlite")
 
 album_tbl <- tbl(con,"Album") %>% collect()
 
@@ -84,16 +92,16 @@ resp <- GET("https://swapi.dev/api/people/1/")
 
 # Wrapped into a function
 sw_api <- function(path) {
-  url <- modify_url(url = "https://swapi.dev", path = glue("/api{path}"))
-  resp <- GET(url)
-  stop_for_status(resp) # automatically throws an error if a request did not succeed
+url <- modify_url(url = "https://swapi.dev", path = glue("/api{path}"))
+resp <- GET(url)
+stop_for_status(resp) # automatically throws an error if a request did not succeed
 }
 
 resp <- sw_api("/people/1")
 resp                     
 
 resp %>% 
-    .$content %>% 
-    rawToChar() %>% 
-    fromJSON()
-
+.$content %>% 
+rawToChar() %>% 
+fromJSON()
+```

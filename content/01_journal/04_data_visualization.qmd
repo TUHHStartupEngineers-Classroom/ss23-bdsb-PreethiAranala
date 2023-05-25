@@ -25,8 +25,8 @@ library(scales)
 #| 
 covid_data_tbl <- read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
 covid_refined_tbl <- covid_data_tbl %>%
-    filter(location %in% c("Germany","France","Spain","United States","United Kingdom")) %>%
-    select(location, date, total_cases, total_deaths)
+  filter(location %in% c("Germany","France","Spain","United States","United Kingdom")) %>%
+  select(location, date, total_cases, total_deaths)
 
 ```
 
@@ -41,8 +41,8 @@ covid_refined_tbl$date <- as.Date(covid_refined_tbl$date)
 covid_refined_tbl <- covid_refined_tbl %>%
   mutate(month = floor_date(date, unit = "month"),
          day = day(date)) %>% 
-         group_by(month) %>%
-         filter(day == max(day))
+  group_by(month) %>%
+  filter(day == max(day))
 
 million <- function(x) {
   paste0(x / 1000000, "M")
@@ -80,39 +80,39 @@ world <- map_data("world")
 ```{r}
 #| eval: false
 #| 
-  
+
 
 library(maps)
 
 world <- map_data("world") 
 
 covid_geo_tbl <- covid_data_tbl %>%
-    select(location, date, total_cases, total_deaths)
+  select(location, date, total_cases, total_deaths)
 
 covid_geo_tbl$date <- as.Date(covid_geo_tbl$date)
 covid_geo_tbl <- covid_geo_tbl %>%
   mutate(month = floor_date(date, unit = "month"),
          day = day(date)) %>% 
-         group_by(month) %>%
-         arrange(desc(date)) %>%
-         na.omit() %>%
-         filter(date == "2023-05-17") %>%
-         mutate(case_fatality = total_deaths * 100/total_cases)
-         
-         
+  group_by(month) %>%
+  arrange(desc(date)) %>%
+  na.omit() %>%
+  filter(date == "2023-05-17") %>%
+  mutate(case_fatality = total_deaths * 100/total_cases)
+
+
 covid_geo_tbl$month <- NULL
 covid_geo_tbl$day <- NULL
 
 world_united <- covid_geo_tbl %>%
   left_join(world, by = c("location" = "region"), relationship = "many-to-many") %>%
-
+  
   left_join(world_tbl, by = c("location" = "region"), relationship = "many-to-many") %>%
-         mutate(location = case_when(
-        location == "United Kingdom" ~ "UK",
-        location == "United States" ~ "USA",
+  mutate(location = case_when(
+    location == "United Kingdom" ~ "UK",
+    location == "United States" ~ "USA",
     location == "Democratic Republic of Congo" ~ "Democratic Republic of the Congo",
     TRUE ~ location
-    )) %>%
+  )) %>%
   distinct()
 
 ```
@@ -127,7 +127,7 @@ ggplot(world_united, aes(x = long, y = lat, map_id = location, fill = case_fatal
   geom_map(map = world, aes(fill = case_fatality, map_id = location, x = long, y = lat), color = "black") +
   scale_fill_gradient(low = "orange", high = "red", na.value = "gray", name = "Case Fatality Percent") +
   labs(title = "Case Fatality Map",
-  subtitle = "as of 2023-05-17") +
+       subtitle = "as of 2023-05-17") +
   theme(axis.text = element_blank(),
-    axis.title = element_blank())
+        axis.title = element_blank())
 ```

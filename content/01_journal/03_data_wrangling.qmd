@@ -45,35 +45,35 @@ col_types <- list(
 #| 
 
 patent_tbl <- vroom(
-            file       = "C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/patent.tsv", 
-            delim      = "\t", 
-            col_types  = col_types[c("id",  "date",  "num_claims")],
-            na         = c("", "NA", "NULL")
-        )
+  file       = "C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/patent.tsv", 
+  delim      = "\t", 
+  col_types  = col_types[c("id",  "date",  "num_claims")],
+  na         = c("", "NA", "NULL")
+)
 
 patent_assignee_tbl <- vroom(
-            file       =  "00_raw_data/Patent_data_reduced/patent_assignee.tsv", 
-            file       =  "C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/patent_assignee.tsv", 
-            delim      = "\t", 
-            col_types  = col_types[c("patent_id",   "assignee_id")],
-            na         = c("", "NA", "NULL")
-        )
-        
+  file       =  "00_raw_data/Patent_data_reduced/patent_assignee.tsv", 
+  file       =  "C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/patent_assignee.tsv", 
+  delim      = "\t", 
+  col_types  = col_types[c("patent_id",   "assignee_id")],
+  na         = c("", "NA", "NULL")
+)
+
 assignee_tbl        <- vroom(
-            file       = "00_raw_data/Patent_data_reduced/assignee.tsv", 
-            file       = "C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/assignee.tsv", 
-            delim      = "\t", 
-            col_types  = col_types[c("id",  "type",  "organization")],
-            na         = c("", "NA", "NULL")
-        )
-        
+  file       = "00_raw_data/Patent_data_reduced/assignee.tsv", 
+  file       = "C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/assignee.tsv", 
+  delim      = "\t", 
+  col_types  = col_types[c("id",  "type",  "organization")],
+  na         = c("", "NA", "NULL")
+)
+
 uspc_tbl            <- vroom(
-            file       =  "00_raw_data/Patent_data_reduced/uspc.tsv", 
-            file       =  "C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/uspc.tsv", 
-            delim      = "\t", 
-            col_types  = col_types[c("patent_id",  "mainclass_id",                                              "sequence")],
-            na         = c("", "NA", "NULL")
-        )
+  file       =  "00_raw_data/Patent_data_reduced/uspc.tsv", 
+  file       =  "C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/Patent_data_reduced/Patent_data_reduced/uspc.tsv", 
+  delim      = "\t", 
+  col_types  = col_types[c("patent_id",  "mainclass_id",                                              "sequence")],
+  na         = c("", "NA", "NULL")
+)
 ```
 
 # 3.1 Question 1
@@ -83,10 +83,10 @@ uspc_tbl            <- vroom(
 #| 
 
 patent_assignee_dt <- merge(patent_assignee_tbl, assignee_tbl, by.x = "assignee_id", by.y = "id", all.x = T) %>%
-        filter(type == 2) %>% 
-        group_by(organization) %>%
-        summarize(quantity = n()) %>%
-        arrange(desc(quantity))
+  filter(type == 2) %>% 
+  group_by(organization) %>%
+  summarize(quantity = n()) %>%
+  arrange(desc(quantity))
 ```
 
 # 3.1.2 Visualizing the data       
@@ -94,12 +94,12 @@ patent_assignee_dt <- merge(patent_assignee_tbl, assignee_tbl, by.x = "assignee_
 #| eval: false
 #| 
 patent_assignee_dt %>%
-        slice(1:10) %>%
-        ggplot(aes(x=organization, y=quantity)) +
-        geom_label(aes(label = quantity), vjust = -0.2) + 
-        geom_col(fill = "#2DC6D6") + 
-        theme(axis.text.x = element_text(angle = 45, hjust = 1))+ 
-labs(
+  slice(1:10) %>%
+  ggplot(aes(x=organization, y=quantity)) +
+  geom_label(aes(label = quantity), vjust = -0.2) + 
+  geom_col(fill = "#2DC6D6") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+ 
+  labs(
     title    = "Patents by Top US Companies",
     x = "Top 10 US Companies", # Override defaults for x and y
     y = "Quantity"
@@ -110,13 +110,13 @@ labs(
 #| eval: false
 #| 
 patent_dt2 <- patent_tbl %>%
-        left_join(patent_assignee_tbl, by = c("id" = "patent_id")) %>%
-        left_join(assignee_tbl, by = c("assignee_id" = "id")) %>%
-        filter(type == 2 & date>= "2014-08-01" & date<= "2014-08-31") %>% 
-        group_by(organization) %>%
-        summarise(quantity = n()) %>%
-        ungroup() %>%
-        arrange(desc(quantity))
+  left_join(patent_assignee_tbl, by = c("id" = "patent_id")) %>%
+  left_join(assignee_tbl, by = c("assignee_id" = "id")) %>%
+  filter(type == 2 & date>= "2014-08-01" & date<= "2014-08-31") %>% 
+  group_by(organization) %>%
+  summarise(quantity = n()) %>%
+  ungroup() %>%
+  arrange(desc(quantity))
 ```        
 # 3.2.2 Visualizing the data       
 ```{r}
@@ -124,12 +124,12 @@ patent_dt2 <- patent_tbl %>%
 #| 
 
 patent_dt2 %>%
-        slice(1:10) %>%
-        ggplot(aes(x=organization, y=quantity)) +
-        geom_label(aes(label = quantity), vjust = -0.2) + 
-        geom_col(fill = "#2DC6D6") + 
-        theme(axis.text.x = element_text(angle = 45, hjust = 1))+ 
-labs(
+  slice(1:10) %>%
+  ggplot(aes(x=organization, y=quantity)) +
+  geom_label(aes(label = quantity), vjust = -0.2) + 
+  geom_col(fill = "#2DC6D6") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+ 
+  labs(
     title    = "Most Patents by Top US Companies in August 2014",
     x = "Top 10 US Companies", # Override defaults for x and y
     y = "Quantity"
@@ -141,9 +141,9 @@ labs(
 #| 
 
 patent_dt3 <- patent_assignee_tbl %>%
-        left_join(assignee_tbl, by = c("assignee_id" = "id"), relationship = "many-to-many") %>%
-        left_join(uspc_tbl, by = c("patent_id" = "patent_id"), relationship = "many-to-many")
-        
+  left_join(assignee_tbl, by = c("assignee_id" = "id"), relationship = "many-to-many") %>%
+  left_join(uspc_tbl, by = c("patent_id" = "patent_id"), relationship = "many-to-many")
+
 top_10_companies <- patent_dt3 %>%
   group_by(organization) %>%
   summarise(num_patents = n()) %>%
@@ -162,11 +162,11 @@ top_5_USPTO <- patent_dt3 %>%
 #| 
 
 top_5_USPTO %>%
-        ggplot(aes(x=mainclass_id, y=num_patents_per_mainclass)) +
-        geom_label(aes(label = num_patents_per_mainclass), vjust = -0.2) + 
-        geom_col(fill = "#2DC6D6") + 
-        theme(axis.text.x = element_text(angle = 45, hjust = 1))+ 
-labs(
+  ggplot(aes(x=mainclass_id, y=num_patents_per_mainclass)) +
+  geom_label(aes(label = num_patents_per_mainclass), vjust = -0.2) + 
+  geom_col(fill = "#2DC6D6") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+ 
+  labs(
     title    = "Top 5 USPTO Classes by Top 10 Companies",
     x = "Main Class ID", # Override defaults for x and y
     y = "Quantity"

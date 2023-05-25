@@ -1,10 +1,6 @@
 ---
-format: html
 title: "Tidyverse"
 author: "Preethi Aranala"
-<<<<<<< Updated upstream
-theme = "cosmo"
-toc: true
 ---
 
 # SALES ANALYSIS ----
@@ -47,36 +43,12 @@ orderlines_tbl %>% glimpse()
 
 ```{r}
 #| eval: false
-#| 
-
-=======
----
-
-# Data Science at TUHH ------------------------------------------------------
-# SALES ANALYSIS ----
-
-# 1.0 Load libraries ----
-library(tidyverse)
-library(readxl)
-
-# 2.0 Importing Files ----
-bikes_tbl <- read_excel("C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/ds_data/ds_data/01_bike_sales/01_raw_data/bikes.xlsx")
-
-bikeshops_tbl <- read_excel("C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/ds_data/ds_data/01_bike_sales/01_raw_data/bikeshops.xlsx")
-
-orderlines_tbl <- read_excel("C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/ds_data/ds_data/01_bike_sales/01_raw_data/orderlines.xlsx")
-
-# 3.0 Examining Data ----
-
-
-# 4.0 Joining Data ----
->>>>>>> Stashed changes
 bike_orderlines_joined_tbl <- orderlines_tbl %>%
         left_join(bikes_tbl, by = c("product.id" = "bike.id")) %>%
         left_join(bikeshops_tbl, by = c("customer.id" = "bikeshop.id"))
 
 bike_orderlines_joined_tbl %>% glimpse()
-<<<<<<< Updated upstream
+
 ```
 
 # 5.0 Wrangling Data ----
@@ -84,11 +56,6 @@ bike_orderlines_joined_tbl %>% glimpse()
 ```{r}
 #| eval: false
 #| 
-
-=======
-
-# 5.0 Wrangling Data ----
->>>>>>> Stashed changes
 bike_orderlines_wrangled_tbl <- bike_orderlines_joined_tbl %>%
   separate(col    = location,
            into   = c("city", "state"),
@@ -102,7 +69,7 @@ bike_orderlines_wrangled_tbl <- bike_orderlines_joined_tbl %>%
          everything()) %>%
   rename(bikeshop = name) %>%
   set_names(names(.) %>% str_replace_all("\\.", "_"))
-<<<<<<< Updated upstream
+
 ```
 
 # 6.0 Business Insights ----
@@ -115,10 +82,6 @@ bike_orderlines_wrangled_tbl <- bike_orderlines_joined_tbl %>%
 #| eval: false
 #| 
 
-=======
-# 6.0 Business Insights ----  
-# 6.1 Sales by Location ----
->>>>>>> Stashed changes
 sales_by_loc_tbl <- bike_orderlines_wrangled_tbl %>%
 group_by(state) %>% 
 summarize(sales = sum(total_price)) %>%
@@ -128,7 +91,7 @@ mutate(revenue = scales::dollar(sales, big.mark = ".",
                                      suffix = " €"))
 
 sales_by_loc_tbl
-<<<<<<< Updated upstream
+
 ```
 
 # Step 2 - Visualize
@@ -137,10 +100,6 @@ sales_by_loc_tbl
 #| eval: false
 #| 
 
-=======
-
-# Step 2 - Visualize
->>>>>>> Stashed changes
 sales_by_loc_tbl %>%
 ggplot(aes(x = state, y = sales)) +
 geom_col(fill = "#2DC6D6") + 
@@ -154,7 +113,7 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))+                 labs(
     x = "", # Override defaults for x and y
     y = "Revenue"
   )
-<<<<<<< Updated upstream
+
 ```
 
 # 6.2 Sales by State and Year ----
@@ -171,11 +130,6 @@ library(lubridate)
 ```{r}
 #| eval: false
 #| 
-=======
-# 6.2 Sales by State and Year ----
-library(lubridate)
-# Step 1 - Manipulate
->>>>>>> Stashed changes
 sales_by_year_tbl <- bike_orderlines_wrangled_tbl %>%
 select(state, order_date, total_price) %>%
 mutate(year = year(order_date)) %>%
@@ -186,7 +140,6 @@ mutate(sales_text = scales::dollar(sales, big.mark = ".",
                                      prefix = "", 
                                      suffix = " €"))
 sales_by_year_tbl
-<<<<<<< Updated upstream
 ```
 
 # Step 2 - Visualize
@@ -194,11 +147,6 @@ sales_by_year_tbl
 ```{r}
 #| eval: false
 #| 
-
-=======
-
-# Step 2 - Visualize
->>>>>>> Stashed changes
 sales_by_year_tbl %>%
   ggplot(aes(x = year, y = sales, fill = state)) +
   geom_col() + # Run up to here to get a stacked bar plot
@@ -211,7 +159,6 @@ sales_by_year_tbl %>%
     title = "Revenue by Year and State",
     fill = "States" 
   )
-<<<<<<< Updated upstream
 ```
 
 # 7.0 Writing Files ----
@@ -249,18 +196,3 @@ write_csv("00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.csv")
 bike_orderlines_wrangled_tbl %>% 
 write_rds("00_raw_data/01_bike_sales/02_wrangled_data/bike_orderlines.rds")
 ```
-=======
-
-# 7.0 Writing Files ----
-library(writexl)
-# 7.1 Excel ----
-bike_orderlines_wrangled_tbl %>% 
-write_xlsx("C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/ds_data/ds_data/01_bike_sales/02_wrangled_data/bike_orderlines.xlsx")
-# 7.2 CSV ----
-bike_orderlines_wrangled_tbl %>% 
-write_csv("C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/ds_data/ds_data/01_bike_sales/02_wrangled_data/bike_orderlines.csv")
-# 7.3 RDS ----
-bike_orderlines_wrangled_tbl %>% 
-write_rds("C:/Users/Preethi Aranala/OneDrive/Documents/GitHub/ss23-bdsb-PreethiAranala/content/ds_data/ds_data/01_bike_sales/02_wrangled_data/bike_orderlines.rds")
-
->>>>>>> Stashed changes
